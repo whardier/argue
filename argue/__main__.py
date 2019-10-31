@@ -54,7 +54,7 @@ def main(*args, **kwargs):
     #modification_group.add_argument('-l', '--lock-positionals', type=int, nargs='*')
 
     operation_group = parser.add_argument_group(title='Operation')
-    operation_mutually_exclusive_group = operation_group.add_mutually_exclusive_group(required=True)
+    operation_mutually_exclusive_group = operation_group.add_mutually_exclusive_group(required=False)
 
     operation_mutually_exclusive_group.add_argument('-r', '--positional-reversal', action='store_true')
     operation_mutually_exclusive_group.add_argument('-lf', '--positional-last-to-first', action='store_true')
@@ -82,11 +82,11 @@ def main(*args, **kwargs):
     prepend_keys = []
 
     if args.prepend_all_positionals:
-        prepend_keys = sorted(positionals.keys())
+        prepend_keys = sorted(positionals.keys()[args.skip_positionals:])
     if args.prepend_all_but_first_positional:
-        prepend_keys = sorted(positionals.keys())[1:]
+        prepend_keys = sorted(positionals.keys())[args.skip_positionals+1:]
     if args.prepend_all_but_last_positional:
-        prepend_keys = sorted(positionals.keys())[:-1]
+        prepend_keys = sorted(positionals.keys())[args.skip_positionals:-1]
 
     argv = compile_argv(command, optionals, positionals)
 
@@ -95,9 +95,9 @@ def main(*args, **kwargs):
 
     if args.positional_reversal:
         keys = positionals.keys()
-        keys_start =  keys[:args.skip_positionals]
+        keys_start =  keys[:-args.skip_positionals]
         keys_end = sorted(keys[args.skip_positionals:])
-        keys_end_reversed = keys[::-1]
+        keys_end_reversed = keys_end[::-1]
 
         positionals = rekey_positionals(
             positionals,
@@ -107,9 +107,9 @@ def main(*args, **kwargs):
 
     if args.positional_first_to_last:
         keys = positionals.keys()
-        keys_start =  keys[:args.skip_positionals]
+        keys_start =  keys[:-args.skip_positionals]
         keys_end = sorted(keys[args.skip_positionals:])
-        keys_end_first_to_last = keys[:]
+        keys_end_first_to_last = keys_end[:]
 
         positional = keys_end_first_to_last.pop()
         keys_end_first_to_last.insert(0, positional)
@@ -122,9 +122,9 @@ def main(*args, **kwargs):
 
     if args.positional_last_to_first:
         keys = positionals.keys()
-        keys_start =  keys[:args.skip_positionals]
+        keys_start =  keys[:-args.skip_positionals]
         keys_end = sorted(keys[args.skip_positionals:])
-        keys_end_last_to_first = keys[:]
+        keys_end_last_to_first = keys_end[:]
 
         positional = keys_end_last_to_first.pop(0)
         keys_end_last_to_first.append(positional)
