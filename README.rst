@@ -98,3 +98,6 @@ Fun test using find again (Skip 1 positional, reverse positionals, prepend some 
      '/tmp/remote-cronstuff']
     
     
+Beer/Coffee
+-----------
+See: https://whardier.github.io/
