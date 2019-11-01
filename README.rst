@@ -57,11 +57,44 @@ Fun test using find again (Skip 1 positional, reverse positionals, prepend some 
 
 .. code-block::
 
-    find /etc/cron.d -type f -exec argue -n --prepend-after-operation --prepend-all-but-last-positional='user@remotehost:' -s 1 -r -- sudo rsync -avPHS /tmp/remote-cronstuff {} +
-
-    Arguments Namespace(argv=['rsync', '-avPHS', '/tmp/remote-cronstuff', '/etc/cron.d/.placeholder', '/etc/cron.d/rsnapshot', '/etc/cron.d/certbot', '/etc/cron.d/popularity-contest', '/etc/cron.d/mailman'], dry_run=True, positional_first_to_last=False, positional_last_to_first=False, positional_reversal=True, prepend_after_operation=True, prepend_all_but_first_positional=None, prepend_all_but_last_positional='user@remotehost:', prepend_all_positionals=None, skip_positionals=1)
-
-    Original Argv ['sudo', 'rsync', '-avPHS', '/tmp/remote-cronstuff', '/etc/cron.d/.placeholder', '/etc/cron.d/rsnapshot', '/etc/cron.d/certbot', '/etc/cron.d/popularity-contest', '/etc/cron.d/mailman']
-
-    Modified Argv ['sudo', 'rsync', '-avPHS', 'user@remotehost:/etc/cron.d/mailman', 'user@remotehost:/etc/cron.d/popularity-contest', 'user@remotehost:/etc/cron.d/certbot', 'user@remotehost:/etc/cron.d/rsnapshot', 'user@remotehost:/etc/cron.d/.placeholder', '/tmp/remote-cronstuff']
-
+    find /etc/cron.d -type f -exec argue -n --prepend-after-operation --prepend-all-but-last-positional='user@remotehost:' -s 1 -r -- sudo rsync -avPHS --relative /tmp/remote-cronstuff {} +
+    Arguments {'argv': ['rsync',
+              '-avPHS',
+              '--relative',
+              '/tmp/remote-cronstuff',
+              '/etc/cron.d/.placeholder',
+              '/etc/cron.d/rsnapshot',
+              '/etc/cron.d/certbot',
+              '/etc/cron.d/popularity-contest',
+              '/etc/cron.d/mailman'],
+     'dry_run': True,
+     'positional_first_to_last': False,
+     'positional_last_to_first': False,
+     'positional_reversal': True,
+     'prepend_after_operation': True,
+     'prepend_all_but_first_positional': None,
+     'prepend_all_but_last_positional': 'user@remotehost:',
+     'prepend_all_positionals': None,
+     'skip_positionals': 1}
+    Original Argv ['sudo',
+     'rsync',
+     '-avPHS',
+     '--relative',
+     '/tmp/remote-cronstuff',
+     '/etc/cron.d/.placeholder',
+     '/etc/cron.d/rsnapshot',
+     '/etc/cron.d/certbot',
+     '/etc/cron.d/popularity-contest',
+     '/etc/cron.d/mailman']
+    Modified Argv ['sudo',
+     'rsync',
+     '-avPHS',
+     '--relative',
+     'user@remotehost:/etc/cron.d/mailman',
+     'user@remotehost:/etc/cron.d/popularity-contest',
+     'user@remotehost:/etc/cron.d/certbot',
+     'user@remotehost:/etc/cron.d/rsnapshot',
+     'user@remotehost:/etc/cron.d/.placeholder',
+     '/tmp/remote-cronstuff']
+    
+    

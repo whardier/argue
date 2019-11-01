@@ -141,9 +141,10 @@ def main(*args, **kwargs):
     new_argv = compile_argv(command, optionals, positionals)
 
     if args.dry_run:
-        print('Arguments', args)
-        print('Original Argv', argv)
-        print('Modified Argv', new_argv)
+        import pprint
+        print('Arguments', pprint.pformat(args.__dict__, width=70))
+        print('Original Argv', pprint.pformat(argv, width=70))
+        print('Modified Argv', pprint.pformat(new_argv, width=70))
     else:
         subprocess.call(new_argv)
 
