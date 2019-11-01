@@ -33,7 +33,7 @@ Simple tool to execute commands after rearranging command line arguments
       -fl, --positional-first-to-last
     
 
-This was initially developed to swap the first argument with the last argument in order to make the following command possible.
+This was initially developed to move the first argument with the last argument in order to make the following command possible.
 
 .. code-block:: bash
 
